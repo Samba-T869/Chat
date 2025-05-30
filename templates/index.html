@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Public Chat</title>
+</head>
+<body>
+  <h2>Public Chat Room</h2>
+  <ul id="messages"></ul>
+  <input type="file" id="mediaInput" accept="image/*, video/*">
+  <button onclick="sendMedia()">Send Media</button>
+  
+  <input id="message" autocomplete="off" placeholder="Type your message..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    // Your JavaScript code here
+  </script>
+</body>
+</html>
