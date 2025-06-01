@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>REGISTER</title>
+  <style>
+  body{
+    background: #4165bf;
+    text-align: center;
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  form input, button{
+    width: 60%;
+    height: 40px;
+    text-align: center;
+    border-radius: 15px;
+    margin: 4vh;
+    font-size: 25px;
+  }
+  a{
+    color: #000000;
+    text-decoration: none;
+    font-size: 2rem;
+    margin-top: 2vh;
+  }
+  </style>
+</head>
+<body>
+  <h1>REGISTER HERE</h1>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div style="color: red; font-size: 40px; text-align: center;">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+  
+  <form method="POST" action="/register">
+    <input type="text" placeholder="Username" name="username"required>
+    <input type="password" placeholder="Password" name="password"required>
+    <button type="submit">Register</button>
+  </form>
+  <a href="/login">Login</a>
+</body>
+</html>

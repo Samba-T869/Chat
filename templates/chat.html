@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Public Chat</title>
+  <style>
+  body{
+    background: #ff7286;
+    text-align: center;
+    color: #0000ff;
+  }
+  h1{
+    font-size: 2.5rem;
+  }
+  .input{
+    display: flex;
+    margin: 10px;
+    justify-content: left;
+    align-items: center;
+    border-top: 1px solid #000000;
+  }
+  .input #message{
+    width: 40%;
+    height: 60px;
+    margin-left: 5px;
+    font-size: 25px;
+    border-radius: 15px;
+  }
+  .input button{
+    width: 10%;
+    height: 60px;
+    border-radius: 15px;
+    font-size: 25px;
+  }
+  .messages{
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+  }
+  a{
+    font-size: 2rem;
+    text-decoration: none;
+    background: #000000;
+    margin-top: 10vh;
+  }
+  img{
+    width: 40px;
+    height: 40px;
+  }
+  </style>
+</head>
+<body>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div style="color: blue; font-size: 30px; text-align: center;">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+  <h1>PUBLIC CHAT ROOM</h1>
+  <div class="messages">
+  <ul id="messages"></ul>
+  </div>
+  
+  <div class="input">
+  <input type="file" id="mediaInput" accept="image/*, video/*" style="display: none">
+  <img src="{{url_for('static', filename='add.svg')}}" id="media">
+  <button onclick="sendMedia()">Send Media</button>
+  
+  <input id="message" autocomplete="off" placeholder="Type your message...">
+  <button onclick="sendMessage()">Send</button>
+  </div>
+  <a href="/logout">Logout</a>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    const mediaInput = document.querySelector('#mediaInput');
+    const media = document.querySelector('#media');
+    const socket = io();
+    const username = "{{session.user}}";
+    
+    media.addEventListener('click', ()=>{
+      mediaInput.click();
+    })
+  
+    socket.on('message', function(data) {
+      const item = document.createElement('li');
+      item.textContent = `${data.user}: ${data.msg}`;
+      document.getElementById('messages').appendChild(item);
+    });
+
+    function sendMessage() {
+      const input = document.getElementById('message');
+      socket.send(input.value);
+      input.value = '';
+    }
+  
+  function sendMedia(){
+    const file = document.getElementById('mediaInput').files[0];
+    if(!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e){
+      const data ={
+        name: file.name,
+        type: file.type,
+        content: e.target.result
+      };
+      socket.emit('media', data);
+    }
+    reader.readAsDataURL(file); //Converts to base64
+  }
+  
+  socket.on('media', function(data){
+    const media = document.createElement(data.type.startsWith('image')? 'img':'video');
+    media.src = data.content;
+    media.controls = true;
+    media.style.maxWidth = '300px';
+    
+    const li = document.createElement('li');
+    li.appendChild(media);
+    document.getElementById('messages').appendChild(li);
+  })
+  
+  </script>
+</body>
+</html>
