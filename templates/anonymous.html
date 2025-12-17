@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Anonymous</title>
+  
+  <style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body{
+    background: #333;
+  }
+  .container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    position: relative;
+  }
+  .header{
+    position: sticky;
+    top: 0;
+    width: 100%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    align-items: center;
+    border-bottom: 2px solid rgba(255,255,255,0.6);
+    z-index: 1000;
+  }
+  .header h1{
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  .header a i{
+    font-size: 1.2rem;
+    color: #fff;
+  }
+  .message{
+    display: flex;
+    flex-direction: column;
+    scroll-behaviour: smooth;
+  }
+  .input-field{
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right:0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #fff;
+    border-top: 2px solid rgba(255,255,255,0.6);
+  }
+  .input-field input{
+    padding: 5px 0;
+    font-size: 18px;
+    border: none;
+    outline: none;
+  }
+  #send-img, #media-input{
+    width: 30px;
+    height: 30px;
+  }
+  #file-input{
+    display: none;
+  }
+  #msgImg{
+    position: fixed;
+    top: 15vh;
+    bottom: 15vh;
+    height: 80vh;
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a href="/homepage"><i class="fas fa-arrow-left"></i></a>
+      <h1 id="username">{{username}}</h1>
+    </div>
+    
+    <div class="message">
+      <img src="#" id="msgImg">
+    </div>
+    
+    <div class="input-field">
+        <input id="file-input" type="file" accept="image/*, audio/*, video/*, application/pdf">
+        <img id="media-input" src="{{url_for('static', filename='attachment.svg')}}">
+        
+        <input type="text" id="text-input" placeholder="Type your message...">
+        <img id="send-img"src="{{url_for('static', filename='send.svg')}}">
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+  <script>
+  const username = document.querySelector('#username');
+  const fileInput = document.getElementById('file-input');
+  const mediaInput = document.getElementById('media-input');
+  const textInput = document.querySelector('#text-input');
+  const image = document.getElementById('msgImg');
+  const sendbutton = document.querySelector('#send-img');
+  
+  document.addEventListener('DOMContentLoaded', ()=>{
+    mediaInput.addEventListener('click', function(){
+      fileInput.click();
+    });
+    
+  });
+  
+  fileInput.addEventListener('change', function(){
+    const file = this.files[0];
+    
+    const reader = new FileReader();
+    
+    reader.addEventListener('load', function(){
+      image.src = reader.result;
+    });
+    
+    reader.readAsDataURL(file);
+  });
+  
+  const names =[
+    'Ali',
+    'Musa',
+    'Juma',
+    'Jose']
+  
+  sendbutton.addEventListener('click', ()=>{
+  let name ='';
+    let newname = textInput.value;
+    if(newname ===''){
+      return;
+    }else{
+      names.push(newname);
+    };
+  
+  name += names[Math.floor(Math.random() * names.length)];
+  username.innerHTML = name;
+  });
+  
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and policy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body{
+    background: #fff;
+    color: #000000;
+  }
+  body.night{
+    background: #000000;
+    color: #fff;
+  }
+  .head{
+    position: fixed;
+    top: 0;
+    padding: 15px 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0,0,0,1);
+    z-index: 1000;
+    border-bottom: 2px solid rgba(0,255,0,0.7);
+  }
+  .head h1{
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgba(255,0,255,0.6);
+  }
+  .head button{
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 1.5rem;
+    outline: none;
+  }
+  .head i{
+    color: #fff;
+    font-size: 1.2rem;
+  }
+  .container{
+    margin-top: 10vh;
+    width: 100%;
+    padding: 10px 15px;
+  }
+  .container p{
+    /*letter-spacing: 1px;*/
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    font-weight: 500;
+  }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <a href="/homepage"><i class="fas fa-arrow-left"></i></a>
+    <h1>Terms & Conditions</h1>
+    <button id="toggle">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+  
+  <div class="container">
+  <p>
+    You agree, through your use of this forum, that you will not post any material which is false, defamatory, inaccurate, abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a person's privacy, adult material, or otherwise in violation of any International or United States Federal law. You also agree not to post any copyrighted material unless you own the copyright or you have written consent from the owner of the copyrighted material. Spam, flooding, advertisements, chain letters, pyramid schemes, and solicitations are also forbidden on this forum.
+Note that it is impossible for the staff or the owners of this forum to confirm the validity of posts. Please remember that we do not actively monitor the posted messages, and as such, are not responsible for the content contained within. We do not warrant the accuracy, completeness, or usefulness of any information presented. The posted messages express the views of the author, and not necessarily the views of this forum, its staff, its subsidiaries, or this forum's owner. Anyone who feels that a posted message is objectionable is encouraged to notify an administrator or moderator of this forum immediately. The staff and the owner of this forum reserve the right to remove objectionable content, within a reasonable time frame, if they determine that removal is necessary. This is a manual process, however, please realize that they may not be able to remove or edit particular messages immediately.
+    <br> <br>Please note that with each post, your IP address is recorded, in the event that you need to be banned from this forum or your ISP contacted. This will only happen in the event of a major violation of this agreement.
+Also note that the software places a cookie, a text file containing bits of information (such as your username and password), in your browser's cache. This is ONLY used to keep you logged in/out. The software does not collect or send any other form of information to your computer.
+  </p>
+  </div>
+  
+  <script>
+  const body = document.body;
+  const toggleButton = document.querySelector('#toggle');
+  
+  toggleButton.addEventListener("click", ()=>{
+    body.classList.toggle("night");
+    
+  });
+  
+  </script>
+</body>
+</html>
