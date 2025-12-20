@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms and policy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  :root{
+    --primary-color: #4285f4;
+      --secondary-color: #34a853;
+      --error-color: #ea4335;
+      --background-color: #f5f5f5;
+      --message-bg: #ffffff;
+      --dark-text: #333333;
+      --light-text: #757575;
+  }
+  
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body{
+    background: #fff;
+    color: #000000;
+  }
+  body.night{
+    background: #000000;
+    color: #fff;
+  }
+  .head{
+    position: fixed;
+    top: 0;
+    padding: 15px 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--message-bg);
+    color: var(--primary-color);
+    z-index: 1000;
+    border-bottom: 2px solid var(--primary-color);
+  }
+  .head h1{
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  .head button{
+    border: 0;
+    background: transparent;
+    font-size: 1.5rem;
+    outline: none;
+  }
+  .head i{
+    font-size: 1.2rem;
+  }
+  .head.night{
+    background: var(--dark-text);
+  }
+  .container{
+    margin-top: 10vh;
+    width: 100%;
+    padding: 10px 15px;
+  }
+  .container p{
+    margin: 15px 0;
+    text-align: left;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    font-weight: 500;
+  }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <a href="/homepage"><i class="fas fa-arrow-left"></i></a>
+    <h1>Terms & Conditions</h1>
+      <i class="fas fa-moon" id="toggle"></i>
+  </div>
+  
+  <div class="container">
+  <p>
+    You agree, through your use of this website, that you will not post any material which is false, defamatory, inaccurate, abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a person's privacy, adult material, or otherwise in violation of any International or United Republic of Tanzania government laws.<br>
+    <br> You also agree not to post any copyrighted material unless you own the copyright or you have written consent from the owner of the copyrighted material. Spam, flooding, advertisements, chain letters, pyramid schemes, and solicitations are also forbidden on this forum.
+Note that it is impossible for the staff or the owners of this forum to confirm the validity of posts.<br>
+    <br>Please remember that we do not actively monitor the posted messages, and as such, are not responsible for the content contained within. We do not warrant the accuracy, completeness, or usefulness of any information presented. The posted messages express the views of the author, and not necessarily the views of this forum, its staff, its subsidiaries, or this forum's owner. Anyone who feels that a posted message is objectionable is encouraged to notify an administrator or moderator of this forum immediately. The staff and the owner of this forum reserve the right to remove objectionable content, within a reasonable time frame, if they determine that removal is necessary. This is a manual process, however, please realize that they may not be able to remove or edit particular messages immediately.
+    <br> <br>Please note that if your post is reported, your email will be suspended from using this website until further investigation on your actions is completed. This will only happen in the event of a major violation of this agreement.
+  </p>
+  </div>
+  
+  <script>
+  const body = document.body;
+  const head = document.querySelector('.head');
+  const toggleButton = document.querySelector('#toggle');
+  
+  toggleButton.addEventListener("click", ()=>{
+    body.classList.toggle("night");
+    head.classList.toggle("night");
+  });
+  
+  </script>
+</body>
+</html>

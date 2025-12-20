@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOME PAGE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  :root {
+      --primary-color: #4285f4;
+      --secondary-color: #34a853;
+      --error-color: #ea4335;
+      --background-color: #f5f5f5;
+      --message-bg: #ffffff;
+      --dark-text: #333333;
+      --light-text: #757575;
+      --header-height: 60px;
+      --input-height: 70px;
+      --nav-height: 50px;
+      --input-height: 70px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-color: var(--background-color);
+      color: var(--dark-text);
+      line-height: 1.6;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-top: calc(var(--header-height) + var(--nav-height)); /* Prevent content overlap */
+    }
+    header{
+      position: fixed; 
+      top:0;
+        right:0;
+        left: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+    .head{
+        align-items: center;
+        height: var(--header-height);
+        padding: 10px 15px;
+        display: flex;
+        background: var(--primary-color);
+        justify-content: space-between;
+    }
+  .head i{
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #fff;
+  }
+    header nav{
+        height: var(--nav-height);
+        background: var(--message-bg);
+       padding: 5px 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        /*overflow-x: auto; Allow horizontal scrolling*/
+    }
+    header nav a i{
+        min-width: 70px;
+        margin: 0;
+        text-align: center;
+        font-size: 1.2rem;
+        white-space: no-wrap; /*prevent text wrapping*/
+        color: var(--primary-color);
+    }
+    header nav a:hover {
+    background-color: var(--background-color);
+    }
+    .logo{
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        padding: 4px 2px;
+    }
+    .menu{
+        position: fixed;
+        top: var(--header-height);
+        right:0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 15px 20px;
+        background: #333;
+        justify-content: flex-start;
+        display: none;
+        /*animation: fadeIn 0.4s;*/
+    }
+    .menu.show{
+        display: flex;
+    }
+    .menu a{
+        text-decoration: none;
+        color: #fff;
+        margin: 10px 0;
+        padding-bottom: 5px;
+        border-bottom: 1px solid rgba(255,255,0,0.2);
+    }
+    .menu a i{
+        margin-right: 5px;
+    }
+    
+    main{
+        padding: 20px;
+        width: 100%;
+    }
+    main h1{
+        color: rgba(10,0,250,0.5);
+        font-size: 1.5rem;
+        text-align: left;
+        margin-top: 3vh;
+    }
+    main p{
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+    main a{
+        color: rgba(100,30,200,1);
+        text-decoration: none;
+    }
+    main a:hover{
+        color: rgba(250,30,200,0.8);
+    }
+    .content-section {
+      max-width: 800px;
+      width: 100%;
+        background: rgba(0,200,10,0.1);
+      padding: 30px 20px;
+        margin-top: 10vh;
+      border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 20px;
+    }
+   
+    .content-section h1{
+        padding: 15px 20px;
+        font-size: 1.5rem;
+        text-align: left;
+        color: rgba(50,0,250,0.6);
+        /*transition: transform 0.5s ease-out;*/
+    }
+    
+    .content-section p{
+        color: #000000;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-spacing: 12px;
+        /*transition: all 0.5s ease-out 0.3s;*/
+    }
+    
+    main img{
+        width: 100%;
+        height: auto;
+        display: block;
+        height: 40vh;
+        object-fit: cover;
+        filter: grayscale(0.8);
+        filter: opacity(0.5);
+        margin: 0 auto 20px;
+        border-radius: 8px;
+        /*transition: all 1s ease-out;*/
+    }
+    
+    footer{
+        width: 100%;
+    background: rgba(0,0,0,0.2);
+    color: var(--light-text);
+    padding: 15px;
+        font-size: 1.2rem;
+    text-align: center;
+    margin-top: auto;
+    }
+    footer a{
+        font-size: 1.2rem;
+        color: var(--light-text);
+      text-decoration: underline;
+    }
+    .language{
+        margin: 4vh auto;
+    }
+    .language select, label {
+        font-size: 1.2rem;
+        font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+        outline:0;
+  }
+    .contact{
+        margin: 5vh auto;
+    }
+    .contact a{
+        text-decoration: none;
+    }
+    .contact a i{
+        font-size: 1.8rem;
+        margin: 10px;
+        color: var(--primary-color);
+    }
+    .trademark{
+        margin: 7vh auto;
+    }
+    .trademark p{
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .trademark img{
+        width: 60px;
+        height: 60px;
+       
+    }
+   
+    @keyframes fadeIn{
+        0%{filter: opacity(0); transform: translateY(-10px);}
+        100%{filter: opacity(1); transform: translateY(0px);}
+    }
+    
+    /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .header nav a {
+      min-width: 70px;
+      font-size: 0.8rem;
+      padding: 6px 4px;
+    }
+    .main{
+        padding: 20px;
+    }
+    .content-section {
+      padding: 20px 10px;
+    }
+  } 
+  </style>
+</head>
+<body>
+  <header>
+    <div class="head">
+      <a href="#" class="logo">neverAlone</a>
+      <i class="fas fa-bars" id="ham"></i>
+    </div>
+    
+    <nav>
+      <a href="/public">
+          <i class="fas fa-users"></i>
+      </a>
+        <!-- <a href="/private/recipient">-->
+        <a href="/users">
+          <i class="fas fa-envelope"></i>
+      </a>
+      <a href="/anonymous">
+          <i class="fas fa-user-secret"></i>
+      </a>
+      <a href="/loner">
+          <i class="fas fa-person"></i>
+      </a>
+      <a href="/tusepe">
+          <i class="fas fa-globe"></i>
+      </a>
+    </nav>
+    
+    <div class="menu">
+      <a href="/register">Register</a>
+      <a href="/profile">
+          <i class="fas fa-user"></i>My profile</a>
+      <a href="/setting">
+          <i class="fas fa-gear"></i>Setting</a>
+      <a href="/experience">User experience</a>
+      <a href="/logout">
+          <i class="fas fa-sign-out-alt"></i>Logout</a>
+    </div>
+  </header>
+  
+  <main>
+      <img id="main-image" src="{{url_for('static', filename='s18.jpg')}}" alt="A welcome photo">
+      <h1><i class="fas fa-users"></i>
+          PRESERVE YOUR SENSE OF HUMOUR</h1>
+    <p>
+        neverAlone enables you to meet new people with different personality from all
+        over the world to achieve fun and happiness hence rejoycing together as a 
+        community.<br> Here you meet new people and new experienced giving you a chance
+        to face the world with new friends and ambitions.
+    </p>
+      
+      <div class="content-section">
+          <h1><i class="fas fa-envelope"></i>
+              ENJOY YOUR PRIVACY IN PRIVATE ROOMS</h1>
+          <p>
+              Go inbox with anyone you care at a time. Private messaging
+              is secure giving you a better experiance with privacy.
+          </p>
+      </div>
+      
+      <div class="content-section">
+          <h1><i class="fas fa-user-secret"></i>
+              ANONYMOUS MODE IS FOR YOU</h1>
+          <p>
+             neverAlone  gives you ability to communicate with a hidden identity. No face, no name no voice recognition
+              just to ensure your needs are attained for betterment.
+          </p>
+      </div>
+      
+      <div class="content-section">
+          <h1><i class="fas fa-person"></i>
+              FEELING LONELY? YOU'RE NOT ALONE</h1>
+          <p>
+              neverAlone gives you opportunity to meet with people in your condition, where you can share ideas and exchange
+              experience. The smooth background music gives you a sense of belonging
+              and a new purpose in life. Our AI agent is there to help for advice and chatting.
+          </p>
+      </div>
+      
+      <div class="content-section">
+          <h1><i class="fas fa-globe"></i>
+              CONNECT TO THE SOCIETY AND SHOW US WHAT YOU KNOW.</h1>
+          <p>
+              This feature gives you an opportunity to tell the world who you are. It enable you to post business advertisement,
+              showcase talents and making memory through sharing moments with friends.
+          </p>
+      </div>
+  </main>
+  
+  <footer>
+      <div class="language">
+      <label for="lang">Language</label>
+          <select id="lang" name="language">
+              <option>Kiswahili</option>
+              <option>English</option>
+              <option>Spain</option>
+              <option>Hausa</option>
+              <option>French</option>
+              <option>Arabic</option>
+          </select>
+      </div>
+      
+      <div class="contact">
+      <h3>Contact us</3>
+          <p><a href="mailto:kimwagangalula@gmail.com">ngalulaTech@gmail.com</a></p>
+          <p>+255614047802</p>
+          <p>+255795271177</p>
+          
+          <nav>
+              <a href="https://facebook.com/kimwaga ngalula" target="_blank">
+                  <i class="fab fa-facebook"></i>
+              </a>
+              <a href="https://instagram.com/bonny_samba" target="_blank">
+                  <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://wa.me/255614047802" target="_blank">
+                  <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="https://tiktok.com" target="_blank">
+                  <i class="fab fa-tiktok"></i>
+              </a>
+          </nav>
+      </div>
+      
+    <div class="trademark">
+      <p><a href="/policy">Terms and privacy settings</a></p>
+      <p>&copy;Developed by <a href="#">ngalulaTech</a></p>
+        <img src="{{url_for('static', filename='Orion.png')}}">
+      </div>
+  </footer>
+    
+    <script>
+    const hamburger=document.querySelector('#ham');
+    const menu = document.querySelector('.menu');
+    const body = document.body;
+    
+    hamburger.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        menu.classList.toggle('show');
+    });
+    
+    document.addEventListener('click', (e)=>{
+        if(e.target !== menu){
+            menu.classList.remove('show');
+        }
+    });
+    /*// Animation on scroll functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select elements to animate
+        const contentSections = document.querySelectorAll('.content-section');
+        const mainImage = document.getElementById('main-image');
+        
+        // Create intersection observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target === mainImage) {
+                        entry.target.classList.add('animate');
+                    } else {
+                        entry.target.classList.add('animate');
+                    }
+                }
+            });
+        }, {
+            threshold: 0.2 // Trigger when 20% of the element is visible
+        });
+        
+        // Observe all content sections
+        contentSections.forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Observe the main image if it exists
+        if (mainImage) {
+            observer.observe(mainImage);
+        }
+        
+        // Add scroll event for parallax effect on the main image
+        window.addEventListener('scroll', () => {
+            if (mainImage) {
+                const scrolled = window.pageYOffset;
+                const rate = scrolled * -0.5;
+                mainImage.style.transform = `translateY(${rate}px) scale(${1 + Math.abs(rate)*0.0005})`;
+            }
+        });
+    });*/
+    </script>
+</body>
+</html>

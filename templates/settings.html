@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>SETTING</title>
+  <style>
+  :root{
+    --primary-color: #4285f4;
+      --secondary-color: #34a853;
+      --error-color: #ea4335;
+      --background-color: #f5f5f5;
+      --message-bg: #ffffff;
+      --dark-text: #333333;
+      --light-text: #757575;
+      --header-height: 60px;
+      --input-height: 70px;
+      --nav-height: 50px;
+      --input-height: 70px;
+  }
+  
+  body{
+    display: flex;
+    color: blue;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  a{
+    background: var(--primary-color);
+    text-decoration: none;
+    padding: 15px 20px;
+    margin: 20px;
+    width: 40%;
+    font-size: 2rem;
+    color: var(--message-bg);
+    border-radius: 10px;
+  }
+  </style>
+</head>
+<body>
+  <h1>SORRY! <br>THIS FEATURE APPEARS TO BE MISSING, IT WILL BE UPDATED SOON.</h1>
+  <img src="{{url_for('static', filename='profile_pics/1765988298_IMG-20251210-WA0007.jpg')}}">
+  <a href="/homepage">Go back!</a>
+  <img src="{{url_for('static', filename='Orion.png')}}">
+</body>
+</html>

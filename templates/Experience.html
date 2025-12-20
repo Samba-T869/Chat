@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Review</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+  :root{
+    --white: rgba(255,255,255,0.1);
+    --blue: #8658ff;
+    --denim: #0a0a00;
+  }
+  
+  body{
+    width: 100%;
+    height: auto;
+    padding: 0 10px;
+    line-height: 1.6;
+  }
+  form{
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--white);
+  }
+  .greetings{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    background: var(--white);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .greetings h1{
+    color: var(--blue);
+    font-size: 1.6rem;
+  }
+  .greetings a{
+    text-decoration: none;
+  }
+  .greetings a i{
+    font-size: 1.5rem;
+    marfin-right: 15px;
+  }
+  
+  .instruction{
+    width: 100%;
+    padding: 5px 15px;
+  }
+  .instruction h2{
+    color: rgba(0,0,255,0.6);
+    font-size: 1.6rem;
+  }
+  .instruction p{
+    font-family: sans-serif;
+    color: var(--denim);
+    font-size: 1.2rem;
+  }
+  .comment{
+    margin: 10px auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px auto;
+  }
+  .comment textarea{
+    padding: 15px 20px;
+    font-size: 20px;
+    height: 30vh;
+    border: 1px solid rgba(0,0,0,0.1);
+    width: 90%;
+    border-radius: 5px;
+    font-family: sans-serif;
+  }
+  .comment button{
+    width: 40%;
+    margin: 20px auto;
+    border: none;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--blue);
+    border-radius: 18px;
+    background: rgba(0,0,0,0.2);
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+  .comment button:hover{
+    background: rgba(0,0,0,0.3);
+  }
+  </style>
+</head>
+<body>
+  <form method="POST" action="/experience" class="container">
+    <div class="greetings">
+      <a href="/homepage">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1>Welcome {{username}}</h1>
+    </div>
+    
+    <div class="instruction">
+    <h2>Write your review.</h2>
+    <p>Your review helps us to improve our services for better experience. Your comment and review will remain confidential and it will not shared to anyone apart from our service provider for maintainance process.</p>
+    </div>
+    
+    <div class="comment">
+      <textarea id="textarea" name="comment" placeholder="Type your comment..."></textarea>
+      <button id="commentBtn">Submit</button>
+    </div>
+  </form>
+</body>
+</html>
