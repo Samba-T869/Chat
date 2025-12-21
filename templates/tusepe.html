@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tusepe</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  :root{
+    --primary: #4267b2;
+  }
+  
+  *{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+  }
+  .head {
+    background-color: #4267B2;
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .head a{
+    text-decoration: none;
+  }
+  .head img{
+    background: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 30px;
+  }
+  .back {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    margin-right: 15px;
+  }
+  .logo {
+    font-size: 24px;
+  }
+  form {
+    position: sticky;
+    top: 34px;
+    left:0;
+    right:0;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  form input[type="text"] {
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #dddfe2;
+    border-radius: 4px;
+  }
+  form input[type="file"] {
+    margin-bottom: 5px;
+  }
+  form label{
+    color: var(--primary);
+    margin-left: 20px;
+  }
+  
+  form label i{
+    font-size: 1.5rem;
+  }
+  
+  form button {
+    background-color: #4267B2;
+    color: white;
+    border: none;
+    padding: 8px;
+    margin-right: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .post {
+    background-color: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+  .post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .post-header img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 5px;
+    object-fit: cover;
+  }
+  .post-username {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  .post-content {
+    margin-bottom: 10px;
+  }
+   .post-media {
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .post-media img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  .post-media video {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  .post-actions {
+    display: flex;
+    border-top: 1px solid #dddfe2;
+    padding-top: 10px;
+  }
+  .post-actions button {
+    background: none;
+    border: none;
+    margin-right: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+    </style>
+</head>
+<body>
+  <div class="head">
+    <a href="/homepage" class="back" title="Go to homepage"><i class="fas fa-arrow-left"></i></a>
+    <h1 class="logo">Tusepe</h1>
+    <img src="{{url_for('static', filename='Orion.png')}}">
+  </div>
+  
+    <form method="POST" enctype="multipart/form-data">
+      <label for="media" title="Add a media file"><i class="fas fa-paperclip"></i></label>
+      <input type="text" name="content" placeholder="What's on your mind?">
+      <input type="file" id="media" name="media" accept="image/*,video/*,audio/*" style="display:none;">
+      <button type="submit">Post</button>
+    </form>
+  
+  <div id="posts-container">
+    {% for post in posts %}
+    <div class="post">
+      <div class="post-header">
+        <img src="{{ url_for('static', filename=post[7]) if post[7] else url_for('static', filename='user-outline.svg')}}" alt="image">
+        <strong class="post-username">{{ post[1] }}</strong>
+      </div>
+      
+      {% if post[2] %}
+      <div class="post-content">
+        {{ post[2] }}
+      </div>
+      {% endif %}
+      
+      {% if post[4] %}
+      <div class="post-media">
+        {% if post[3] == 'image' %}
+        <img src="{{ post[4] }}" alt="Post image">
+        {% elif post[3] == 'video' %}
+        <video poster="{{url_for('static', filename='59.jpg')}}" controls>
+          <source src="{{ post[4] }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        {% elif post[3] == 'audio' %}
+        <audio controls>
+          <source src="{{ post[4] }}" type="audio/mpeg">
+        </audio>
+        {% endif %}
+      </div>
+      {% endif %}
+      
+      <div class="post-actions">
+        <button onclick="likePost({{ post[0] }})">Like ({{ post[5] }})</button>
+        <button onclick="focusComment({{ post[0] }})">Comment</button>
+        <button onclick="sharePost({{ post[0] }})">Share</button>
+      </div>
+      
+      <div class="comment-section" id="comment-section-{{ post[0] }}" style="display: none;">
+        <textarea placeholder="Write a comment..."></textarea>
+        <button onclick="postComment({{ post[0] }})">Post</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+  <script>
+ /* const video = document.querySelector('video');
+  const image = document.querySelector('img');*/
+  
+  const socket = io();
+    
+    function likePost(postId) {
+      socket.emit('like_post', { postId: postId });
+    }
+    
+    function focusComment(postId) {
+      const commentSection = document.getElementById(`comment-section-${postId}`);
+      commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+    }
+    
+    function postComment(postId) {
+      const commentText = document.querySelector(`#comment-section-${postId} textarea`).value;
+      socket.emit('post_comment', { postId: postId, comment: commentText });
+      document.querySelector(`#comment-section-${postId} textarea`).value = '';
+    }
+    
+    function sharePost(postId) {
+      // Implement share functionality
+      alert('Share functionality coming soon!');
+    }
+  
+  // Listen for like updates
+    socket.on('like_update', function(data) {
+      // Update like count for the specific post
+      const likeButton = document.querySelector(`button[onclick="likePost(${data.postId})"]`);
+      likeButton.textContent = `Like (${data.likes})`;
+    });
+    
+    // Listen for new posts
+    socket.on('new_post', function(data) {
+      // Add the new post to the top of the feed
+      const postsContainer = document.getElementById('posts-container');
+      const newPost = createPostElement(data);
+      postsContainer.insertBefore(newPost, postsContainer.firstChild);
+    });
+    
+  function createPostElement(post) {
+    const div = document.createElement('div');
+    div.className = 'post';
+    
+    let mediaHTML = '';
+    if (post.media_path) {
+      if (post.media_type === 'image') {
+        mediaHTML = `<img src="${post.media_path}" alt="Post image">`;
+      } else if (post.media_type === 'video') {
+        mediaHTML = `<video controls><source src="${post.media_path}" type="video/mp4">Your browser does not support the video tag.</video>`;
+      } else if (post.media_type === 'audio') {
+        mediaHTML = `<div class="audio-container"><audio controls style="width: 100%"><source src="${post.media_path}" type="audio/mpeg">Your browser does not support the audio element.</audio></div>`;
+      }
+    }
+    
+    div.innerHTML = `
+      <div class="post-header">
+        <strong class="post-username">${post.username}</strong>
+      </div>
+      ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
+      ${post.media_path ? `<div class="post-media">${mediaHTML}</div>` : ''}
+      <div class="post-actions">
+        <button onclick="likePost(${post.id})">Like (${post.likes})</button>
+        <button onclick="focusComment(${post.id})">Comment</button>
+        <button onclick="sharePost(${post.id})">Share</button>
+      </div>
+      <div class="comment-section" id="comment-section-${post.id}" style="display: none;">
+        <textarea placeholder="Write a comment..."></textarea>
+        <button onclick="postComment(${post.id})">Post</button>
+    </div>
+   `;
+    return div;
+  }
+  </script>
+</body>
+</html>

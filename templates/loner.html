@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="color-scheme"http-equiv="CONTENT-TYPE" content="dark">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loner</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  *{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+  }
+  body{
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 760px;
+  }
+  .head{
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,255,255,0.7);
+    z-index: 1000;
+  }
+  .head h1{
+    font-size: 1.2rem;
+    color: #8e6efb;
+  }
+  .head i{
+    color: #8e6efb;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+  
+  .main{
+    display: flex;
+    margin-top: 13vh;
+    margin-bottom: 13vh;
+    flex-direction: column;
+    overflow-y: hidden;
+    width: 100%;
+    padding: 15px 10px;
+  }
+  .user-message{
+    margin-left: auto;
+    color: #000000;
+    font-size: 16px;
+    background: #e6eeff;
+    padding: 10px 20px;
+    border-radius: 8px 8px 0 8px;
+    margin-bottom: 10px;
+  }
+  .ai-message{
+    font-size: 16px;
+    background: #f0f0f0;
+    color: #000000;
+    margin-right: auto;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px 8px 8px 0;
+  }
+  
+  .input-field{
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(0,255,255,0.7);
+  }
+  .input-field input{
+    background: transparent;
+    border: none;
+    padding: 5px 2px;
+    outline: 0;
+    font-size: 16px;
+    color: #000;
+  }
+  .input-field i{
+    cursor: pointer;
+    color: #8e6efb;
+    font-size: 1.5rem;
+  }
+  
+  .menu{
+    position: fixed;
+    background: #fff;
+    top: 10vh;
+    width: 40%;
+    height: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    padding: 15px 20px;
+    border-top: 1px solid #f0ff00;
+    display: none;
+  }
+  .menu.show{
+    display: flex;
+  }
+  .menu a{
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+    color: 8e6efb;
+    border-bottom: 2px solid rgba(0,0,0,0.2);
+    margin-top: 10px;
+    padding: 10px 0;
+  }
+  .menu a i{
+    margin-right: 10px;
+  }
+  </style>
+</head>
+<body>
+  <div class="head">
+  <h1><a href="/homepage"><i class="fas fa-arrow-left"></i></a>
+    Dear Loner</h1>
+    <i class="fas fa-bars" id="menuButton"></i>
+  </div>
+  
+  <div class="main">
+    <!--messages will be inserted here -->
+  </div>
+  
+  <div class="input-field">
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <i class="far fa-paper-plane" id="sendButton"></i>
+  </div>
+  
+  <div class="menu">
+    <a href="/homepage"><i class="fas fa-home"></i>Home</a>
+    <a href="/tusepe"><i class="fas fa-globe"></i>Tusepe</a>
+    <a href="/public"><i class="fas fa-users"></i>Public</a>
+    <a href="/users"><i class="fas fa-envelope"></i>Private</a>
+    <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+  <script>
+  //DOM contents
+  const menuButton = document.querySelector('#menuButton');
+  const menu = document.querySelector('.menu');
+  const input = document.querySelector('#messageInput');
+  const sendButton = document.querySelector('#sendButton');
+  const messageBox = document.querySelector('.main');
+  
+  //AI response object
+  const response ={
+    greeting: ["Hello there, how can I help you?","Hi welcome, how can I assist you today?","Hi, do you need any assistance?"],
+    advice: ["Always try to find a peaceful place to refresh","Use your extra time to chat with friend","Do things that make you happy"],
+    music: ["Alan walker, alone","Alan walker, forever young","Eminem, mockingbird","Linhy, dear me","Dean lewis, hurt so bad"],
+    self: ["I am just an AI assistance to help you😊","I am not a real person","I was created by ngalulaTech company","My advice should be taken for comfort"]
+  }
+  
+  //User sample questions
+  const question = {
+    greeting: ["Hello","Hi","Hey"],
+    advice: ["Can you advice me?","What can I do now?"],
+    music: ["What music should I play to be ok?","Tell me the music I have to listen"],
+    self: ["Who are you?", "Who created you?","What\'s your name?"]
+  }
+  
+  menuButton.addEventListener('click', (e)=>{
+    e.preventDefault();
+    menu.classList.toggle('show');
+  });
+  
+  document.addEventListener('click', (e)=>{
+    if(e.target !== menuButton){
+      menu.classList.remove('show');
+    }
+  });
+  
+  sendButton.addEventListener('click', sendMessage);
+  
+  input.addEventListener('keypress', (e)=>{
+    if (e.key ==='Enter'){
+      sendButton.click();
+    }
+  });
+  
+  function sendMessage(){
+    const message = input.value.trim();
+    
+    if(message ===''){
+      return;
+    }
+    
+    let userMessage = document.createElement('p');
+    userMessage.className ='user-message';
+    userMessage.innerHTML =`${message}`;
+    
+    messageBox.appendChild(userMessage);
+    
+    setTimeout(()=>{
+      sendResponse(message);
+      messageBox.scrollTop = messageBox.scrollHeight;
+    }, 500);
+    
+    input.value ='';
+    return;
+  }
+  
+  function sendResponse(message){
+    let aiMessage = document.createElement('p')
+    aiMessage.className ='ai-message';
+    const lowerMessage = message.toLowerCase();
+    
+    if (response.greeting.some(word => lowerMessage.includes(word.toLowerCase()))){
+    const aiResponse = response.greeting[Math.floor(Math.random() * response.greeting.length)];
+    aiMessage.innerHTML = `<strong>AI: </strong> ${aiResponse}`
+    }
+    else if (response.advice.some(word => lowerMessage.includes(word.toLowerCase()))) {
+        const aiResponse = response.advice[Math.floor(Math.random() * response.advice.length)];
+        aiMessage.innerHTML = `<strong>Bot:</strong> ${aiResponse}`;
+      }
+      // Check for self questions
+      else if (response.self.some(word => lowerMessage.includes(word.toLowerCase()))) {
+        const aiResponse = response.self[Math.floor(Math.random() * response.self.length)];
+        aiMessage.innerHTML = `<strong>AI:</strong> ${aiResponse}`;
+      }
+      // Check if it's a number (age calculation)
+      else if (!isNaN(message) && message.length === 4) {
+        const birthYear = parseInt(message);
+        const currentYear = new Date().getFullYear();
+        const age = currentYear - birthYear;
+        
+        if (age < 0) {
+          aiMessage.innerHTML = `<strong>AI:</strong> You haven't been born yet! Please enter a valid birth year.`;
+        } else if (age > 120) {
+          aiMessage.innerHTML = `<strong>AI:</strong> ${age} years old? That's impressive! Please verify your birth year.`;
+        } else {
+          aiMessage.innerHTML = `<strong>AI:</strong> You are ${age} years old (or will be this year)!`;
+        }
+      }
+      // Check if it's an age question for the bot
+      else if (lowerMessage.includes('how old are you') || lowerMessage.includes('your age')) {
+        const aiResponse = response.music[Math.floor(Math.random() * response.music.length)];
+        aiMessage.innerHTML = `<strong>AI:</strong> ${aiResponse}`;
+      }
+      // Default response for unknown commands
+      else {
+        aiMessage.innerHTML = `<strong>AI:</strong> I'm not sure how to respond to that. Try asking about me or enter your birth year to calculate your age.`;
+      }
+    
+    messageBox.appendChild(aiMessage);
+  }
+  
+  function deleteMessage(){
+    
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ngalula Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  :root{
+    --primary: #3498db;
+    --error: red;
+    --success: green;
+  }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      height: auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(135deg, #1a2980, #26d0ce);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1.1rem;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      padding: 40px 30px;
+    }
+    .form-group {
+      margin-bottom: 25px;
+      width: 100%;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 1rem;
+    }
+    
+    .input-field {
+      position: relative;
+      width: 100%;
+    }
+    
+    .input-field i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #3498db;
+      font-size: 18px;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      height: 55px;
+      padding:15px 15px 15px 50px;
+      border: 2px solid #e1e5eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+      color: #2c3e50;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #3498db;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    .password-container {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #7f8c8d;
+    }
+    .toggle-password:hover {
+      color: #3498db;
+    }
+    
+    .submit-btn {
+      width: 100%;
+      height: 55px;
+      background: linear-gradient(to right, #3498db, #2c3e50);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      background: linear-gradient(to right, #2980b9, #1a252f);
+    }
+    
+    .form-footer {
+      text-align: center;
+      margin-top: 25px;
+      color: #7f8c8d;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+    }
+    
+    .form-footer a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 600;
+      
+      transition: color 0.2s ease;
+    }
+    
+    .form-footer a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+    
+    .flashed-messages {
+      display: none;
+      text-align: center;
+      margin-bottom: 25px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #e3f2fd;
+      color: #1976d2;
+      font-weight: 500;
+      border-left: 4px solid #1976d2;
+    }
+ .flashed-messages.error {
+  background: #ffe6e6;
+  color: #d32f2f;
+  border-left: 4px solid #d32f2f;
+}
+  .flashed-messages.success {
+    background: #e6ffe6;
+    color: #2e7d32;
+    border-left: 4px solid #2e7d32;
+   }
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #e1e5eb;
+    }
+    
+    .divider span {
+      padding: 0 15px;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+    
+    .social-login {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    
+    .social-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8f9fa;
+      border: 1px solid #e1e5eb;
+      color: var(--primary);
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .social-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .social-btn.google:hover {
+      background: #db4437;
+      color: white;
+      border-color: #db4437;
+    }
+    
+    .social-btn.facebook:hover {
+      background: #4267B2;
+      color: white;
+      border-color: #4267B2;
+    }
+    .social-btn.twitter:hover {
+      background: #1DA1F2;
+      color: white;
+      border-color: #1DA1F2;
+    }
+    
+    @media (max-width: 576px) {
+      .card {
+        padding: 30px 20px;
+      }
+      .header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Login to Continue</h1>
+    </div>
+    
+    <div class="card">
+      <!-- Flashed messages container -->
+      <div class="flashed-messages {% if error %}error{% elif success %}success{% endif %}" id="flash-messages">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+      <div class="message">{{ message }}</div>
+        {% endfor %}
+       {% endif %}
+       {% endwith %}
+      </div>
+      
+      <form class="auth" method="POST" action="/login">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-field">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+    <label for="password">Password</label>
+      <div class="input-field">
+       <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <i class="fas fa-eye toggle-password"></i>
+       </div>
+      </div>
+        
+        <button type="submit" class="submit-btn">Login to Your Account</button>
+        
+        <div class="form-footer">
+          <a href="/forgot">Forgot password?</a>
+          <a href="/register">Register</a>
+        </div>
+        
+        <div class="divider">
+          <span>or continue with</span>
+        </div>
+        
+        <div class="social-login">
+          <div class="social-btn google">
+            <i class="fab fa-google"></i>
+          </div>
+          <div class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+          </div>
+          <div class="social-btn twitter">
+            <i class="fab fa-twitter"></i>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+      icon.addEventListener('click', function() {
+        // Find the closest input-field container
+        const container = this.closest('.input-field');
+        // Find the password input within the container
+        const input = container.querySelector('input');
+        // Toggle the input type between password and text
+        const type = input.type === 'password' ? 'text' : 'password';
+        input.type = type;
+        // Toggle the eye icon
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+      });
+    });
+    
+    // Form validation remains the same
+    const form = document.querySelector('form.auth');
+    form.addEventListener('submit', function(e) {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      
+      if (!username || !password) {
+        e.preventDefault();
+        alert('Please fill in all fields');
+      }
+    });
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+  const flashContainer = document.getElementById('flash-messages');
+  const messageContent = flashContainer.textContent.trim();
+  
+  if (messageContent) {
+    // Show the container
+    flashContainer.style.display = 'block';
+    
+    // Auto-dismiss after 3 seconds
+    setTimeout(function() {
+      flashContainer.style.transition = 'opacity 0.5s ease';
+      flashContainer.style.opacity = '0';
+      
+      // Remove from DOM after fade out
+      setTimeout(function() {
+        if (flashContainer.parentNode) {
+          flashContainer.parentNode.removeChild(flashContainer);
+        }
+      }, 500);
+    }, 2000);
+  } else {
+    // If no messages, remove the container
+    if (flashContainer.parentNode) {
+      flashContainer.parentNode.removeChild(flashContainer);
+    }
+  }
+});
+</script>
+</body>
+</html>
