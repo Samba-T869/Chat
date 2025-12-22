@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+     :root {
+      --primary-color: #4285f4;
+      --secondary-color: #34a853;
+      --error-color: #ea4335;
+      --background-color: #f5f5f5;
+      --message-bg: #ffffff;
+      --dark-text: #333333;
+      --light-text: #757575;
+      --header-height: 60px;
+      --input-height: 70px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-color: var(--background-color);
+      color: var(--dark-text);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: linear-gradient(135deg, var(--primary-color), #3b6bc9);
+      color: white;
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .chat-header a{
+     color: #fff;
+     text-decoration: none;
+    }
+    .chat-header a i, i {
+      font-size: 1.4rem;
+      cursor : pointer;
+    }
+    
+    
+     .chat-input {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: var(--input-height);
+      background: white;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      border-top: 1px solid #e0e0e0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    .input-group {
+      display: flex;
+      flex: 1;
+      background: #f0f4fa;
+      border-radius: 25px;
+      padding: 8px 15px;
+      align-items: center;
+      margin-right: 10px;
+    }
+    .chat-input i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    .chat-input input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px 10px;
+      font-size: 1.1rem;
+      outline: none;
+    }
+    
+ .chat-messages {
+    flex: 1;
+    padding: 80px 15px 80px 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: var(--header-height);
+    margin-bottom: var(--input-height);
+    min-height: calc(100vh - var(--header-height) - var(--input-height));
+}
+
+.message {
+    max-width: 80%;
+    padding: 12px 15px;
+    border-radius: 18px;
+    position: relative;
+    word-wrap: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Received messages (from others) - aligned left with light green background */
+.message:not(.current-user) {
+    align-self: flex-start;
+    background-color: #dcf8c6; /* Light green background */
+    border-bottom-left-radius: 5px;
+    margin-right: auto;
+    border: 1px solid #d1e8c1;
+}
+
+/* Sent messages (current user) - aligned right with different background */
+.message.current-user {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 5px;
+    margin-left: auto;
+    border: 1px solid #3b6bc9;
+}
+
+.message-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    /*border-bottom: 1px solid rgba(255, 255, 255, 0.2);*/
+}
+
+.message-username {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.message:not(.current-user).message-username {
+    color: var(--primary-color);
+}
+
+.message.current-user .message-username {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.message-time {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.message:not(.current-user) .message-time {
+    color: var(--light-text);
+}
+
+.message-text {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.message:not(.current-user) .message-text {
+    color: var(--dark-text);
+}
+
+.message.current-user .message-text {
+    color: white;
+}
+
+.message-text small {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+ /* Add to existing CSS */
+.file-message {
+    margin-top: 8px;
+    max-width: 100%;
+}
+
+.file-message img,
+.file-message video {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.file-message audio {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.file-link {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #f0f0f0;
+    border-radius: 5px;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.message.current-user .file-link {
+    background: rgba(255,255,255,0.2);
+    color: white;
+}
+  .mena{
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    width: 40%;
+    height: 100%;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0,0,0,1);
+    border: 2px solid rgba(0,255,255,0.1);
+    align-items: left;
+    display: none;
+    animation: fadeIn 0.3s;
+   }
+  .mena.show{
+   display: flex;
+  }
+ .mena a{
+  color: var(--message-bg);
+  margin-top: 10px;
+  border-bottom: 1px solid rgba(250,20,255,0.3);
+  font-size: 1.2rem;
+  text-decoration: none;
+ }
+ .mena a i{
+  margin-right: 5px;
+  cursor: pointer;
+ }
+ 
+/* Animation for new messages */
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message {
+    animation: messageAppear 0.3s ease-out;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .message {
+        max-width: 90%;
+        padding: 10px 12px;
+    }
+    
+    .chat-messages {
+        padding: 70px 10px 70px 10px;
+    }
+}
+
+/* Scrollbar styling for chat messages */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+   
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="chat-header">
+          <a href="/homepage">
+           <i class="fas fa-arrow-left"></i>
+          </a>
+          <i class="fas fa-bars" id="options"></i>
+        </div>
+     
+        <div class="chat-messages" id="chat-messages">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message[0] == session['user'] %}current-user{% endif %}">
+                <div class="message-info">
+                    <span class="message-username">{{ message[0] }}</span>
+                    <span class="message-time">
+                       {{ message[4] if message[4] else (message[5].split(' ')[1][:5] if message[5] and ' ' in message[5] else '--:--') }}
+                    </span>
+                </div>
+                <div class="message-text">
+                    {{ message[1] or '' }}
+                    {% if message[2] %}
+                        <br><small>📎 Attachment</small>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+        
+        <div class="chat-input">
+          <i class="fas fa-paperclip" onclick="document.getElementById('media').click()"></i>
+          <input type="text" id="message-input" placeholder="Type your message...">
+          <input type="file" id="media" accept="image/*, audio/*, video/*, application/pdf" style="display: none" multiple="true">
+          <i class="fas fa-paper-plane" id="send-button"></i>
+        </div>
+    </div>
+  
+  <div class="mena">
+      <a href="/profile">My profile</a>
+      <a href="/users">Users</a>
+      <a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+  <script>
+  //DOM contents
+ const socket = io();
+ const hamburger = document.querySelector('#options');
+ const mena = document.querySelector('.mena');
+ const sendBtn = document.querySelector('#send-button');
+ const messageInput = document.querySelector('#message-input');
+ const fileInput = document.querySelector('#media');
+ const chatMessages = document.querySelector('.chat-messages');
+ 
+  //Div interactivity
+ hamburger.addEventListener('click', (e)=>{
+  e.preventDefault();
+  mena.classList.toggle('show');
+ });
+ 
+ document.addEventListener('click', (e)=>{
+  if(e.target !== hamburger){
+   mena.classList.remove('show');
+  }
+ });
+ 
+ //Request message history when connectedp
+ socket.on('connect', ()=>{
+  console.log('Connected to the server');
+  socket.emit('get_public_history');
+ })
+ 
+ socket.on('public_message_history', (data)=>{
+  const currentUser = data.current_user;
+  
+  //chatMessages.innerHTML ='';
+  
+  data.messages.forEach(msg =>{
+   addMessage({
+    sender: msg[0],
+    message: msg[1],
+    file_path: msg[2],
+    file_type: msg[3],
+    timestamp: format(msg[4]),
+    is_current_user: msg[0] === currentUser
+   })
+  });
+  
+  scrollToBottom();
+ });
+ 
+ //Receive new public messages
+ socket.on('new_public_message', (data) =>{
+  addMessage(data);
+  scrollToBottom();
+ })
+ 
+ //Send message functionality
+ async function sendMessage(){
+  const message = messageInput.value.trim();
+  const files = fileInput.files;
+  
+  if( !message && (!files || files.length === 0)){
+   return;
+  }
+  
+   try {
+        // Upload files first if any
+        let filePath = null;
+        let fileType = null;
+        
+        if (files && files.length > 0) {
+            const formData = new FormData();
+            formData.append('file', files[0]); // For simplicity, send one file at a time
+            
+            const response = await fetch('/upload_public_media', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                filePath = result.file_path;
+                fileType = result.file_type;
+            }
+        }
+        
+        // Send message via SocketIO
+        socket.emit('send_public_message', {
+            message: message || `📎 ${files[0].name}`,
+            file_path: filePath,
+            file_type: fileType
+        });
+        
+        // Clear inputs
+        messageInput.value = '';
+        fileInput.value = '';
+        
+    } catch (error) {
+        console.error('Error sending message:', error);
+        alert('Failed to send message. Please try again.');
+    }
+ }
+ 
+ function addMessage(data){
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${data.is_current_user ? 'current_user' : ''}`;
+  
+  //Format timestamp
+  const timestamp = formatTime(data.timestamp);
+  
+  let messageHTML = `
+        <div class="message-info">
+            <span class="message-username">${escapeHtml(data.sender)}</span>
+            <span class="message-time">${timestamp}</span>
+        </div>
+        <div class="message-text">
+            ${escapeHtml(data.message)}
+    `;
+  
+  // Add file preview if file exists
+    if (data.file_path) {
+        const fullPath = `/static/${data.file_path}`;
+        
+        if (data.file_type === 'image') {
+            messageHTML += `<br><img src="${fullPath}" style="max-width: 200px; max-height: 200px; border-radius: 10px; margin-top: 5px;" />`;
+        } else if (data.file_type === 'video') {
+            messageHTML += `<br><video controls style="max-width: 200px; max-height: 200px; border-radius: 10px; margin-top: 5px;">
+                <source src="${fullPath}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>`;
+        } else if (data.file_type === 'audio') {
+            messageHTML += `<br><audio controls style="margin-top: 5px;">
+                <source src="${fullPath}" type="audio/mpeg">
+                Your browser does not support the audio tag.
+            </audio>`;
+        } else {
+            messageHTML += `<br><a href="${fullPath}" target="_blank" style="color: inherit; text-decoration: underline;">
+                📎 Download File
+            </a>`;
+        }
+    }
+    
+    messageHTML += `</div>`;
+    messageDiv.innerHTML = messageHTML;
+    
+    chatMessages.appendChild(messageDiv);
+ }
+ 
+ // Utility functions
+function scrollToBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+ function formatTime(datetimeString) {
+    if (!datetimeString) return new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    try {
+        // Parse the datetime string
+        const date = new Date(datetimeString);
+        
+        // If date is valid, format it
+        if (!isNaN(date.getTime())) {
+            return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
+        // Fallback: try to extract time from string
+        const timeMatch = datetimeString.match(/(\d{1,2}):(\d{2})/);
+        if (timeMatch) {
+            return `${timeMatch[1].padStart(2, '0')}:${timeMatch[2]}`;
+        }
+        
+        return datetimeString.substring(11, 16) || '--:--';
+    } catch (e) {
+        console.warn('Error formatting time:', datetimeString, e);
+        return '--:--';
+    }
+}
+ 
+/*function formatTime(datetimeString) {
+    if (!datetimeString) return new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    // Handle both "YYYY-MM-DD HH:MM:SS" and "HH:MM" formats
+    if (datetimeString.includes(' ')) {
+        return datetimeString.split(' ')[1].substring(0, 5);
+    }
+    return datetimeString.substring(0, 5);
+}*/
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+ 
+ //Event listeners
+ sendBtn.addEventListener('click',sendMessage);
+ 
+ messageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+// File input change handler
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+        // Optionally show file preview
+        const fileNames = Array.from(fileInput.files).map(f => f.name).join(', ');
+        if (!messageInput.value.trim()) {
+            messageInput.value = `📎 ${fileNames}`;
+        }
+        // Trigger send if user wants to send only files
+        // sendMessage();
+    }
+});
+ 
+ // Auto-scroll when new content is added
+const observer = new MutationObserver(scrollToBottom);
+observer.observe(chatMessages, { childList: true, subtree: true });
+
+// Initialize with existing messages from server
+ window.addEventListener('DOMContentLoaded', () => {
+    // Mark user's own messages
+    const currentUsername = "{{ session['user'] if session else '' }}";
+    document.querySelectorAll('.message').forEach(msg => {
+        const usernameElement = msg.querySelector('.message-username');
+        if (usernameElement && usernameElement.textContent === currentUsername) {
+            msg.classList.add('current-user');
+        }
+    });
+    
+    scrollToBottom();
+});
+  </script>
+</body>
+</html>
