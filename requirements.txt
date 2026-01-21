@@ -1,4 +1,3 @@
-Flask
 Flask-SocketIO
 python-engineio
 python-socketio
@@ -11,3 +10,4 @@ python-dotenv
 flask-session
 flask-cors>=4.0.0
 cloudinary>=1.0.0
+flask_limiter==3.3.3
